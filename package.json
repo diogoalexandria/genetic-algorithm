@@ -1,0 +1,22 @@
+{
+  "name": "genetic-algorithm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diogoalexandria/genetic-algorithm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diogoalexandria/genetic-algorithm/issues"
+  },
+  "homepage": "https://github.com/diogoalexandria/genetic-algorithm#readme",
+  "dependencies": {
+    "p5": "^0.10.2"
+  }
+}
