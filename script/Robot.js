@@ -3,6 +3,7 @@ function Robot() {
     this.x = 0;
     this.y = 0;
     this.penalty = false;
+    this.fitness;
     this.directions = [];
 
     this.generateRandomDirections = function(numberOfMoviments) {
@@ -21,11 +22,11 @@ function Robot() {
 
     this.getPenalty = function() {
         return this.penalty;
-    }
+    };
 
     this.getEspecificDirection = function(position) {
         return this.directions[position];
-    }
+    };
 
     this.canMoveDown = function(spot) {        
         downPosition = spot.getDownPosition();          
@@ -38,7 +39,7 @@ function Robot() {
 
     this.moveDown = function() {
         this.y++;
-    }
+    };
 
     this.canMoveRight = function(spot) {       
         rightPosition = spot.getRightPosition();
@@ -51,7 +52,7 @@ function Robot() {
 
     this.moveRight = function() {
         this.x++;
-    }
+    };
 
     this.canMoveUp = function(spot) {
         upPosition = spot.getUpPosition();
@@ -64,7 +65,7 @@ function Robot() {
 
     this.moveUp = function() {
         this.y--;
-    }
+    };
 
     this.canMoveLeft = function(spot) {
         leftPosition = spot.getLeftPosition();        
@@ -73,9 +74,32 @@ function Robot() {
         } else {
             return false;
         }
-    }
+    };
 
-    this.moveLeft = function(){
+    this.moveLeft = function() {
         this.x--;
+    };
+
+    this.calculateFitness = function(target) {
+        let score  = Math.abs(target.x - this.x) + Math.abs(target.y - this.y);
+        this.fitness = score;
+    };
+
+    this.crossover = function(partner) {
+        let child = new Robot();
+        let midPoint = floor(random(this.directions.length));
+        for(let i = 0; i < this.directions.length; i++) {
+            if (i < midPoint) child.directions[i] = this.directions[i];
+            else child.directions[i] = partner.directions[i];
+        };
+        return child;
+    };
+
+    this.mutate = function(mutationRate) {
+        directions.forEach(direction => {
+            if (random(1) < mutationRate) {
+                
+            }
+        });
     }
 }

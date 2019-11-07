@@ -1,31 +1,40 @@
-var columns = 20;
-var rows = 20;
-
-numberOfMoviments = columns + rows + 5;
-
-var population = [];
-var populationLenght = 50;
-
+var columns;
+var rows;
+var numberOfMoviments;
+var target;
+var mutationRate;
+var populationLenght;
+var population;
+var bestPath;
+var allPath;
+var stats;
 var iteration = 0;
 var visitedSpots = [];
 
 function setup() {
     createCanvas(500, 500);
-    frameRate(5);    
+    frameRate(5);
+    
+    columns = 20;
+    rows = 20;
     
     grid = new Grid(rows, columns);
-
+    
     var start = grid.getSpot(0,0);
     var end = grid.getSpot(columns - 1, rows -1);
-
+    
     start.wall = false;
     end.wall = false;
+    
+    target = {
+        x: columns - 1,
+        y: rows - 1
+    };
+    mutationRate = 0.01;
+    populationLenght = 50;
+    numberOfMoviments = columns + rows + 5;
 
-    for(var i = 0; i < populationLenght; i++) {
-        population[i] = new Robot();
-        population[i].id = i;
-        population[i].generateRandomDirections(numberOfMoviments);        
-    }
+    population = new Population(target, mutationRate, populationLenght, numberOfMoviments);
 }
 
 function draw() {
@@ -36,13 +45,13 @@ function draw() {
         visitedSpots[i].show(color(255, 0, 0));
     }
 
-    for(element of population) {
+    for(element of population.elements) {
         let x = element.getXPosition();
         let y = element.getYPosition();
         grid.getSpot(x,y).show(color(0,255,0));
     }
 
-    population.forEach(element => {
+    population.elements.forEach(element => {
         direction = element.getEspecificDirection(iteration)
         let x = element.getXPosition();
         let y = element.getYPosition();
@@ -65,12 +74,24 @@ function draw() {
             element.moveLeft();
         } else {
             element.penalty = true;
-        }
+        }        
     })
+
+    let penalties = 0;
+    population.elements.map(element => {
+        let wasPenalized = element.getPenalty();
+        if(wasPenalized) {
+            penalties++;
+        }
+    });
+
+    if(penalties === populationLenght || iteration === numberOfMoviments){
+        population.calculateFitness();
+    }
 
     iteration++;
 
-    // if(iteration > 3) {
-    //     noLoop();
-    // }
+    if(iteration > 3) {
+        noLoop();
+    }
 }

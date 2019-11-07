@@ -63,15 +63,5 @@ function Spot(i, j, widthSpotArena, heightSpotArena) {
         } else {
             return false
         }
-    }
-
-    // this.isWall = function(position) {
-    //     if (position && position.wall) {
-    //         return true;
-    //     } else if(!position){
-    //         return true;
-    //     } else {
-    //         return false
-    //     }
-    // }
+    }    
 }
