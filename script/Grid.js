@@ -12,7 +12,7 @@ function Grid(rows, columns) {
 
     for (var i = 0; i < columns; i++) {
         for (var j = 0; j < rows; j++) {
-            this.matrix[i][j] = new Spot(i, j, widthSpotArena, heightSpotArena);           
+            this.matrix[i][j] = new Spot(i, j, widthSpotArena, heightSpotArena);
         }
     }
 
@@ -20,9 +20,9 @@ function Grid(rows, columns) {
         return this.matrix[x][y]
     }
     
-    this.show = function() {
+    this.show = function(){
         for (var i = 0; i < columns; i++) {
-            for (var j = 0; j < rows; j++) {                
+            for (var j = 0; j < rows; j++) {
                 this.matrix[i][j].show(color(255));
             }
         }
