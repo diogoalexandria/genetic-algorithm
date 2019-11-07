@@ -18,5 +18,13 @@ function Grid(rows, columns) {
 
     this.getSpot = function(x, y) {
         return this.matrix[x][y]
-    }    
+    }
+    
+    this.show = function(){
+        for (var i = 0; i < columns; i++) {
+            for (var j = 0; j < rows; j++) {
+                this.matrix[i][j].show(color(255));
+            }
+        }
+    }
 }

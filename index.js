@@ -1,7 +1,13 @@
-var columns = 50;
-var rows = 50;
+var columns = 20;
+var rows = 20;
 
-var penalties = 0;   
+numberOfMoviments = columns + rows + 5;
+
+var population = [];
+var populationLenght = 50;
+
+var iteration = 0;
+var visitedSpots = [];
 
 function setup() {
     createCanvas(500, 500);
@@ -14,18 +20,57 @@ function setup() {
 
     start.wall = false;
     end.wall = false;
+
+    for(var i = 0; i < populationLenght; i++) {
+        population[i] = new Robot();
+        population[i].id = i;
+        population[i].generateRandomDirections(numberOfMoviments);        
+    }
 }
 
 function draw() {
-    background(0);
+    background(0);    
+    grid.show();    
     
-    for (var i = 0; i < columns; i++) {
-        for (var j = 0; j < rows; j++) {
-            grid.getSpot(i,j).show(color(255));
-        }
+    for (var i = 0; i < visitedSpots.length; i++) {
+        visitedSpots[i].show(color(255, 0, 0));
     }
 
-    // for (var i = 0; i < path.length; i++) {
-    //     path[i].show(color(255, 0, 0));
+    for(element of population) {
+        let x = element.getXPosition();
+        let y = element.getYPosition();
+        grid.getSpot(x,y).show(color(0,255,0));
+    }
+
+    population.forEach(element => {
+        direction = element.getEspecificDirection(iteration)
+        let x = element.getXPosition();
+        let y = element.getYPosition();
+        let occupiedSpot = grid.getSpot(x,y);
+        let wasPenalized = element.getPenalty();
+        console.log(`id: ${element.id}`);
+        console.log(element);
+        console.log(`direção: ${direction}`);               
+        if (direction === 1 && !wasPenalized && element.canMoveDown(occupiedSpot)) {            
+            visitedSpots.push(occupiedSpot);
+            element.moveDown();
+        } else if (direction === 2 && !wasPenalized && element.canMoveRight(occupiedSpot)) {            
+            visitedSpots.push(occupiedSpot);
+            element.moveRight();
+        } else if (direction === 3 && !wasPenalized && element.canMoveUp(occupiedSpot)) {            
+            visitedSpots.push(occupiedSpot);
+            element.moveUp();
+        } else if (direction === 4 && !wasPenalized && element.canMoveLeft(occupiedSpot)) {            
+            visitedSpots.push(occupiedSpot);
+            element.moveLeft();
+        } else {
+            element.penalty = true;
+        }
+    })
+
+    iteration++;
+
+    // if(iteration > 3) {
+    //     noLoop();
     // }
 }
