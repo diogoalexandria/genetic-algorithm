@@ -98,8 +98,14 @@ function Robot() {
     this.mutate = function(mutationRate) {
         directions.forEach(direction => {
             if (random(1) < mutationRate) {
-                
+                while(1){
+                    let newDirection = Math.ceil(random(0,4));
+                    if(newDirection !== direction) {
+                        direction = newDirection;
+                        break;                    
+                    }
+                }
             }
         });
-    }
-}
+    };
+};
